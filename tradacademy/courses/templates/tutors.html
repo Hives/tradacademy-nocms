@@ -1,0 +1,9 @@
+<ul>
+    {% for tutor in tutors %}
+    <li>
+        <a href="{% url 'courses-tutor' tutor.slug %}">
+            <h2>{{ tutor.first_name }} {{ tutor.last_name }}</h2>
+        </a>
+    </li>
+    {% endfor %}
+</ul>

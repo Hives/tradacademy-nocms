@@ -1,0 +1,9 @@
+<ul>
+    {% for course in courses %}
+    <li>
+        <a href="{% url 'courses-course' course.slug %}">
+            <h2>{{ course.name }}</h2>
+        </a>
+    </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,14 @@
+<h2>{{ course.name }}</h2>
+<h3> The tutor is {{ course.tutor.first_name }} {{ course.tutor.last_name }}</h3>
+<p>{{ course.blurb }}</p>
+<p>
+    The venue is:
+    <ul>
+        <li>{{ course.venue.name }}</li>
+        <li>{{ course.venue.address_1 }}</li>
+        <li>{{ course.venue.address_2 }}</li>
+        <li>{{ course.venue.address_3 }}</li>
+        <li>{{ course.venue.address_4 }}</li>
+        <li>{{ course.venue.post_code }}</li>
+    </ul>
+</p>
