@@ -34,3 +34,9 @@ class Course(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class DateRange(models.Model):
+    start_date = models.DateTimeField()
+    number_of_weeks = models.IntegerField()
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)

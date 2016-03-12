@@ -12,3 +12,18 @@
         <li>{{ course.venue.post_code }}</li>
     </ul>
 </p>
+<p>
+    The dates are:
+    <ol>
+        {% for daterange in dates %}
+        <li>
+            For
+            {{ daterange.number_of_weeks }}
+            weeks, starting on
+            {{ daterange.start_date|date:"D d M Y" }}
+            at
+            {{ daterange.start_date|time:"H:i" }}
+        </li>
+        {% endfor %}
+    </ol>
+</p>

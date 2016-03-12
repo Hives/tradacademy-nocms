@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 
-from .models import Tutor, Course
+from .models import Tutor, Course, DateRange
 
 
 def courses_list(request):
@@ -11,7 +11,8 @@ def courses_list(request):
 
 def course(request, course_slug):
     course = get_object_or_404(Course, slug=course_slug)
-    return render(request, 'course.html', {'course': course})
+    dates = DateRange.objects.filter(course_id=course.id)
+    return render(request, 'course.html', {'course': course, 'dates': dates})
 
 
 def tutor_list(request):
