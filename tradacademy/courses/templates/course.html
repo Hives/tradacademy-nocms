@@ -1,5 +1,10 @@
 <h2>{{ course.name }}</h2>
-<h3> The tutor is {{ course.tutor.first_name }} {{ course.tutor.last_name }}</h3>
+<h3>
+    The tutor is
+    <a href="{% url 'courses-tutor' course.tutor.slug%}">
+        {{ course.tutor.first_name }} {{ course.tutor.last_name }}
+    </a>
+</h3>
 <p>{{ course.blurb }}</p>
 <p>
     The venue is:

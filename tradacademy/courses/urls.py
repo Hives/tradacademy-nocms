@@ -8,7 +8,7 @@ urlpatterns = [
         views.course,
         name="courses-course"
         ),
-    url(r'^tutors/$', views.tutor_list),
+    url(r'^tutors/$', views.tutor_list, name='courses-tutor-list'),
     url(r'^tutors/(?P<tutor_slug>[\w\-]+)/$',
         views.tutor,
         name="courses-tutor"
