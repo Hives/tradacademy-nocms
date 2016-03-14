@@ -4,6 +4,11 @@
         <a href="{% url 'courses-tutor' tutor.slug %}">
             <h2>{{ tutor.first_name }} {{ tutor.last_name }}</h2>
         </a>
+        {% if tutor.pic %}
+            {% include "thumbnail.html" with item=tutor.pic %}
+        {% else %}
+            <p>No pic</p>
+        {% endif %}
     </li>
     {% endfor %}
 </ul>

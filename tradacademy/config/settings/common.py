@@ -27,6 +27,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'sorl.thumbnail',
+
     'courses',
 ]
 
@@ -101,5 +104,11 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR.child("STATIC_URL")
 STATIC_URL = '/static/'
 
-# Media files
-MEDIA_ROOT = BASE_DIR.child("media")
+# sorl-thumbnail setup
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}

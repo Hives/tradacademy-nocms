@@ -1,0 +1,7 @@
+{% load thumbnail %}
+
+{% thumbnail item "240x160" crop="center" as im %}
+    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+{% empty %}
+    <p><a href="{{ item.url }}">pic</a></p>
+{% endthumbnail %}

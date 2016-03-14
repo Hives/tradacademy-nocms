@@ -1,2 +1,4 @@
 <h2>{{ tutor.first_name }} {{ tutor.last_name }}</h2>
 <p>{{ tutor.bio }}</p>
+
+{% include "tutorImage.html" with item=tutor.pic %}

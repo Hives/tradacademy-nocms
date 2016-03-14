@@ -5,6 +5,7 @@ class Tutor(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     slug = models.SlugField()
+    pic = models.ImageField(upload_to="images/tutors")
     bio = models.TextField()
 
     def __str__(self):
