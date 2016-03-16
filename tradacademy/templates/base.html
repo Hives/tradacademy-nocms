@@ -25,10 +25,19 @@
         <![endif]-->
         {% endcomment %}
 
-        <h1>This is the base.html template</h1>
+        <header>
+            <a href="/">
+                <h1 id="site-title">Trad Academy</h1>
+                <div id="site-description">London Folk Music and Dance School</div>
+            </a>
+            <img id="mascot" src="{% static 'images/cat.png' %}" alt="A cat playing a violin like a cello">
+        </header>
 
-        {% block content %}{% endblock %}
+        {% include "navigation.html" %}
 
+        <main>
+            {% block content %}{% endblock %}
+        </main>
 
         {% comment %}
         <script src="https://code.jquery.com/jquery-{{JQUERY_VERSION}}.min.js"></script>

@@ -1,4 +1,9 @@
-<h2>{{ tutor.first_name }} {{ tutor.last_name }}</h2>
-<p>{{ tutor.bio }}</p>
+{% extends "base.html" %}
 
+{% block title %}{{ tutor }}{% endblock %}
+
+{% block content %}
+<h2>{{ tutor }}</h2>
+<p>{{ tutor.bio }}</p>
 {% include "tutorImage.html" with item=tutor.pic %}
+{% endblock %}

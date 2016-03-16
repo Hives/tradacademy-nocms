@@ -1,14 +1,20 @@
-<ul>
+{% extends "base.html" %}
+
+{% block title %}Tutors{% endblock %}
+
+{% block content %}
+<ol>
     {% for tutor in tutors %}
     <li>
         <a href="{% url 'courses-tutor' tutor.slug %}">
-            <h2>{{ tutor.first_name }} {{ tutor.last_name }}</h2>
+            {{ tutor }}
+            {% if tutor.pic %}
+                {% include "thumbnail.html" with item=tutor.pic %}
+            {% else %}
+                <p>No pic</p>
+            {% endif %}
         </a>
-        {% if tutor.pic %}
-            {% include "thumbnail.html" with item=tutor.pic %}
-        {% else %}
-            <p>No pic</p>
-        {% endif %}
     </li>
     {% endfor %}
-</ul>
+</ol>
+{% endblock %}
