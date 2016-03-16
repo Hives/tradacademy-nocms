@@ -16,10 +16,12 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 from django.contrib import admin
 
 
 urlpatterns = [
+    url(r'^$', TemplateView.as_view(template_name='home.html'), name="home"),
     url(r'^admin/', admin.site.urls),
     url(r'^courses/', include('courses.urls')),
 ]

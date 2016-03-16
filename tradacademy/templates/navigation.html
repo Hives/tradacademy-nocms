@@ -1,0 +1,24 @@
+{% load static %}
+<nav class="clearfix">
+    <ul>
+        <li>
+            <a href="/" title="Homepage">Home</a>
+        </li>
+        <li>
+            <a href="" title="Courses">Courses</a>
+            <ul>
+                {% for course in menu_items.courses %}
+                    <li><a href="{% url 'courses-course' course.slug %}">{{ course.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li>
+            <a href="/" title="Tutors">Tutors</a>
+            <ul>
+                {% for tutor in menu_items.tutors %}
+                    <li><a href="{% url 'courses-tutor' tutor.slug %}">{{ tutor }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+</nav>
