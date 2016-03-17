@@ -37,4 +37,45 @@
         {% endfor %}
     </ol>
 </p>
+
+{% if course.venue.gmap_lat and course.venue.gmap_lng %}
+    <h2>Hello</h2>
+    <div id="map"></div>
+    <style type="text/css" media="screen">
+        #map {
+            width: 640px;
+            height: 480px;
+            margin: 10px 10px 30px 10px;
+        }
+    </style>    
+    <script>
+        var map, marker;
+
+        function initMap() {
+            var latlang, zoom;
+
+            latlang = {
+                lat: {{ course.venue.gmap_lat}},
+                lng: {{ course.venue.gmap_lng}}
+            };
+            {% if course.venue.gmap_zoom %}
+                zoom = {{ course.venue.gmap_zoom }};
+            {% else %}
+                zoom = 15;
+            {% endif %}
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: latlang,
+                zoom: zoom
+            });
+
+            marker = new google.maps.Marker({
+                position: latlang,
+                map: map
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDF8RliekVBpZ1kBUa6GdpZNfYUsZ4Ed60&callback=initMap" async defer></script>
+{% endif %}
+
 {% endblock %}

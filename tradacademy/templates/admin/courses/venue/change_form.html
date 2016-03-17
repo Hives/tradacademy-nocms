@@ -1,0 +1,74 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls %}
+
+{% block after_field_sets %}
+{{ block.super }}
+<div id="map"></div>
+<style type="text/css" media="screen">
+    #map {
+        width: 640px;
+        height: 480px;
+        margin: 10px 10px 30px 10px;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+    var map, geocoder, last_search="", n=0;
+
+    function initMap() {
+        geocoder = new google.maps.Geocoder();
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: -34.397, lng: 150.644},
+            zoom: 15
+        });
+      }
+
+    function updateMap() {
+        var address_fields = [];
+        var search_string = "";
+        
+        address_fields.push($('#id_name').val());
+        address_fields.push($('#id_address_1').val());
+        address_fields.push($('#id_address_2').val());
+        address_fields.push($('#id_address_3').val());
+        address_fields.push($('#id_address_4').val());
+        address_fields.push($('#id_post_code').val());
+
+        address_fields.forEach(function(field){
+            if (field != "") {
+                search_string += field + ", ";
+            }
+        })
+
+        if (search_string != last_search) {
+
+            geocoder.geocode( { 'address': search_string}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    map.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location
+                    });
+                    last_search = search_string;
+                    n++;
+                    $('#id_gmap_lat').val(results[0].geometry.location.lat());
+                    $('#id_gmap_lng').val(results[0].geometry.location.lng());
+                    $('#id_gmap_zoom').val(map.zoom);
+                } else {
+                    console.log("Geocode was not successful for the following reason: " + status);
+                }
+            });
+
+        }
+
+    }
+
+    window.setInterval(function(){
+      updateMap()
+    }, 1000);
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDF8RliekVBpZ1kBUa6GdpZNfYUsZ4Ed60&callback=initMap" async defer></script>
+
+{% endblock %}

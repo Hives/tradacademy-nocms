@@ -13,12 +13,16 @@ class Tutor(models.Model):
 
 
 class Venue(models.Model):
-    name = models.CharField(max_length=50, blank=True)
+    name = models.CharField(max_length=50)
     address_1 = models.CharField(max_length=100, blank=True)
     address_2 = models.CharField(max_length=100, blank=True)
     address_3 = models.CharField(max_length=100, blank=True)
     address_4 = models.CharField(max_length=100, blank=True)
     post_code = models.CharField(max_length=100, blank=True)
+
+    gmap_lat = models.FloatField(blank=True, null=True)
+    gmap_lng = models.FloatField(blank=True, null=True)
+    gmap_zoom = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.name

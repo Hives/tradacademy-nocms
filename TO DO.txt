@@ -1,0 +1,7 @@
+tradacademy/templates/admin/courses/venue/change_form.html
+ - check how it loads jQuery. should be from static? or what's the best way?
+ - currently updateMap function starts running before googlemaps javascript is retrieved
+ - if venue already has map details saved, initialise map with correct location
+ - Gmap_zoom needs to update when you click the zoom controls
+ - specify dimensions of map in CSS, that way can specify dimensions of map in admin and on course page in one place
+ - search gets confused if you have a "name" which isn't part of the address (e.g. "paul's house")
