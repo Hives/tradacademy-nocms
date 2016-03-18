@@ -6,22 +6,12 @@
 <h2>{{ course.name }}</h2>
 <h3>
     The tutor is
-    <a href="{% url 'courses-tutor' course.tutor.slug%}">
+    <a href="{% url 'courses-tutor' course.tutor.slug %}">
         {{ course.tutor.first_name }} {{ course.tutor.last_name }}
     </a>
 </h3>
-<p>{{ course.blurb }}</p>
-<p>
-    The venue is:
-    <ul>
-        <li>{{ course.venue.name }}</li>
-        <li>{{ course.venue.address_1 }}</li>
-        <li>{{ course.venue.address_2 }}</li>
-        <li>{{ course.venue.address_3 }}</li>
-        <li>{{ course.venue.address_4 }}</li>
-        <li>{{ course.venue.post_code }}</li>
-    </ul>
-</p>
+
+{% if dates %}
 <p>
     The dates are:
     <ol>
@@ -37,9 +27,27 @@
         {% endfor %}
     </ol>
 </p>
+{% endif %}
+
+<p>{{ course.blurb }}</p>
+
+<p>
+    The venue is:
+    <ul>
+        {% if course.venue.website %}
+            <li><a href="{{ course.venue.website }}" target="_blank">{{ course.venue.name }}</a></li>
+        {% else %}
+            <li>{{ course.venue.name }}</li>
+        {% endif %}
+        <li>{{ course.venue.address_1 }}</li>
+        <li>{{ course.venue.address_2 }}</li>
+        <li>{{ course.venue.address_3 }}</li>
+        <li>{{ course.venue.address_4 }}</li>
+        <li>{{ course.venue.post_code }}</li>
+    </ul>
+</p>
 
 {% if course.venue.gmap_lat and course.venue.gmap_lng %}
-    <h2>Hello</h2>
     <div id="map"></div>
     <style type="text/css" media="screen">
         #map {

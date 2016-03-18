@@ -4,6 +4,7 @@
 {% block after_field_sets %}
 {{ block.super }}
 <div id="map"></div>
+
 <style type="text/css" media="screen">
     #map {
         width: 640px;
@@ -11,50 +12,59 @@
         margin: 10px 10px 30px 10px;
     }
 </style>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
-    var map, geocoder, last_search="", n=0;
+    var map, marker, geocoder, last_search, address_fields;
 
-    function initMap() {
-        geocoder = new google.maps.Geocoder();
+    address_fields=[$('#id_name')];
+    address_fields.push($('#id_address_1'));
+    address_fields.push($('#id_address_2'));
+    address_fields.push($('#id_address_3'));
+    address_fields.push($('#id_address_4'));
+    address_fields.push($('#id_post_code'));
 
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: -34.397, lng: 150.644},
-            zoom: 15
-        });
-      }
-
-    function updateMap() {
-        var address_fields = [];
-        var search_string = "";
-        
-        address_fields.push($('#id_name').val());
-        address_fields.push($('#id_address_1').val());
-        address_fields.push($('#id_address_2').val());
-        address_fields.push($('#id_address_3').val());
-        address_fields.push($('#id_address_4').val());
-        address_fields.push($('#id_post_code').val());
+    function get_address() {
+        var string = "";
 
         address_fields.forEach(function(field){
-            if (field != "") {
-                search_string += field + ", ";
+            if (field.val() != "") {
+                string += field.val() + ", ";
             }
         })
 
-        if (search_string != last_search) {
+        return string;
+    }
 
-            geocoder.geocode( { 'address': search_string}, function(results, status) {
+    last_search = get_address();
+
+    function checkForUpdate() {
+        var address_string;
+      
+        address_string = get_address();
+
+        if (address_string != last_search) {
+
+            geocoder.geocode( { 'address': address_string}, function(results, status) {
+
                 if (status == google.maps.GeocoderStatus.OK) {
+
                     map.setCenter(results[0].geometry.location);
-                    var marker = new google.maps.Marker({
+
+                    if (marker) {
+                        marker.setMap(null);
+                    }
+                    marker = new google.maps.Marker({
                         map: map,
                         position: results[0].geometry.location
                     });
-                    last_search = search_string;
-                    n++;
+                    
+                    last_search = address_string;
+
                     $('#id_gmap_lat').val(results[0].geometry.location.lat());
                     $('#id_gmap_lng').val(results[0].geometry.location.lng());
                     $('#id_gmap_zoom').val(map.zoom);
+
                 } else {
                     console.log("Geocode was not successful for the following reason: " + status);
                 }
@@ -64,9 +74,51 @@
 
     }
 
-    window.setInterval(function(){
-      updateMap()
-    }, 1000);
+    function initMap() {
+        var lat_field, lng_field, zoom_field;
+
+        lat_field = $('#id_gmap_lat').val();
+        lng_field = $('#id_gmap_lng').val();
+        zoom_field = $('#id_gmap_zoom').val();
+
+        if (lat_field + lng_field + zoom_field != "") {
+            // if google map location fields are not all empty, initialise map
+            // using those values and put a marker on it
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: parseFloat(lat_field), lng: parseFloat(lng_field)},
+                zoom: parseInt(zoom_field)
+            });
+
+            marker = new google.maps.Marker({
+                map: map,
+                position: {lat: parseFloat(lat_field), lng: parseFloat(lng_field)}
+            });
+
+        } else {
+            // otherwise draw a map centred on Hackney, without a marker
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 51.5517953, lng: -0.0646437000000333},
+                zoom: 14
+            });
+
+        }
+
+        map.addListener('zoom_changed', function() {
+            $('#id_gmap_zoom').val(map.zoom);
+        });
+
+        geocoder = new google.maps.Geocoder();
+
+
+        window.setInterval(function(){
+          checkForUpdate()
+        }, 1000);
+
+      }
+
+
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDF8RliekVBpZ1kBUa6GdpZNfYUsZ4Ed60&callback=initMap" async defer></script>
